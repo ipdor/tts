@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - master   # 分支名
+    paths:
+      - 'index.js'
+      - 'wrangler.toml'
+      - '.github/workflows/deploy.yml'
 
 jobs:
   deploy:
