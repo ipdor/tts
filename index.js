@@ -2964,13 +2964,22 @@ async function handleAudioTranscription(request) {
             
             let errorMessage = '语音转录服务暂时不可用';
             
+            // Error code: https://docs.siliconflow.cn/cn/api-reference/audio/create-audio-transcriptions
             if (apiResponse.status === 401) {
                 errorMessage = 'API Token无效，请检查您的配置';
-            } else if (apiResponse.status === 429) {
-                errorMessage = '请求过于频繁，请稍后再试';
+            } else if (apiResponse.status === 403) {
+                errorMessage = '余额不足或权限不足，请检查您的账户状态';
+            } else if (apiResponse.status === 404) {
+                errorMessage = '没有找到页面';
             } else if (apiResponse.status === 413) {
                 errorMessage = '音频文件太大，请选择较小的文件';
-            }
+            } else if (apiResponse.status === 429) {
+                errorMessage = '请求过于频繁，请稍后再试';
+            } else if (apiResponse.status === 503) {
+                errorMessage = '模型超载，请稍后重试';
+            } else if (apiResponse.status === 504) {
+                errorMessage = '请求超时，请稍后重试';
+            } 
 
             return new Response(JSON.stringify({
                 error: {
